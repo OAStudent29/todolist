@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by OAStudent29 (http://jsbin.com/xifoyid/4/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <div class="outer">
+  <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+  <meta name="description" content="TODO List - Lesson 10 #HW">
+  <meta charset="utf-8">
+  <title>TODO List</title>
+<style id="jsbin-css">
+body{
+
+  background-color: #FFFACD;
+  background-image: url();
+  background-size:900px ;
+  font-family: 'Pacifico', cursive;
+
+}
+
+
+
+.outer{
+  border-radius :30px ;
+  border:3px solid #777;
+  width: 450px;
+  margin: auto;
+  padding: 10px;
+}
+.time{
+  font-size:10px;
+}
+
+
+
+
+.button-ground {
+  float:right;
+}
+box-shadow:10px;
+</style>
+</head>
+<body>
+  <div>
+    <h1>TODO List</h1>
+    <input id="input" class="js-task-checkbox" type="text" />
+    <button id="add-button">加入</button>
+    <div>
+      <ul id="task-list" style="list-style: none">
+        <li>
+          <label>
+            <input type="checkbox">
+            <span>TEST</span>
+          </label>
+          <button class="js-edit-button">編輯</button>
+          <button class="js-delete-button">刪除</button>
+        </li>
+      </ul>
+      共有<span id="total-task-number">0</span>個事項
+      <button id="delete-completed-button">刪除已完成事項</button>
+      <hr>
+      <button id="button1">顯示已完成事項</button>
+      
+      <button id="button2">顯示未完成事項</button>
+      <button id="button3">顯示所有事項</button>
+    </div>
+  </div>
+<script id="jsbin-javascript">
+
+
+
+function createHTMLStr(text){
+    var date=new Date();
+  var datestr=date.toString();
+  var HTMLStr="<li>"+
+			"<label>"+
+				"<input type='checkbox'>" +
+				"<span>"+text +"</span>"+
+      "</label>"+
+      "<label class='button-ground'>"+
+			"<button class='js-edit-button'>編輯</button>"+
+			"<button class='js-delete-button'>刪除</button>"+
+      "</label>"+"<br>"+
+      "<span>"+datestr+"</span>"+
+		"</li>"
+  return HTMLStr
+}
+
+
+
+// ==== 新增事項 ==== //
+function addTask(){
+	var text = $("input").val();
+  var HTMLStr=createHTMLStr(text);
+	$("ul").append(HTMLStr
+		
+	);
+	$("input").val("");
+}
+
+function isEnterPressed(event){
+  if (event.which === 13){
+    addTask();
+  }
+}
+
+// 為“新增按鈕”綁定點擊事件
+$("#add-button").on("click", addTask);
+
+// 為“輸入欄位”綁定點擊事件
+$("#input").on("keypress", isEnterPressed);
+
+
+
+// ==== 刪除單一事項 ==== //
+function deleteTask(){
+  var $target =$(this).closest("li")
+  $target.remove();
+  
+}
+$("body").on("click", ".js-delete-button", deleteTask);
+// ==== 修改單一事項 ==== //
+function editTask(){
+  var $element=$(this).closest("li").find("span");
+  var newtext=prompt("更改");
+  $element.text(newtext);
+  
+  
+};
+$("body").on("click", ".js-edit-button", editTask);
+
+
+// ==== 刪除所有已完成事項 ==== //
+$("#delete-completed-button").on("click", removeCompletedTasks);
+                                 
+function removeCompletedTasks(){
+  $(":checked").closest("li").remove();
+}
+function button1(){
+  $("li").hide();
+  $(":checked").closest("li").show();
+}
+$("#button1").on("click",button1);               
+function button2(){
+  $("li").show();
+  $(":checked").closest("li").hide();
+}
+$("#button2").on("click",button2)
+function button3(){
+  $("li").show();
+}
+$("#button3").on("click",button3)
+
+</script>
+</body>
+</html>
